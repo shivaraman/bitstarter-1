@@ -1,2 +1,17 @@
-["h1",
- ".navigation"]
+[".container .heading .span12 h1",
+ ".container .navigation",
+ ".container .navigation .logo",
+ ".container .navigation .blank",
+ ".container .navigation .about",
+ ".container .heading",
+ ".container .subheading",
+ ".container .pitch",
+ ".container .pitch .video",
+ ".container .pitch .span6 .thermometer",
+ ".container .pitch .span6 .order",
+ ".container .pitch .span6 .social",
+ ".container .section1",
+ ".container .section2",
+ ".container .faq",
+ ".container .footer"
+]

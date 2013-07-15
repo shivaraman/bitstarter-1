@@ -99,11 +99,20 @@ if(require.main == module) {
         .parse(process.argv);
 
 	validateCommandOptions(program.file, program.url, program.checks);
+
+	var htmlFile;
 	if (program.url) {
+		//download html file to current dir with restler library
+
+		//set htmlFile variable to name of downloaded file
+
 		console.log('The url option is under construction. Exiting.');
 		process.exit(1);
 	}
-    var checkJson = checkHtmlFile(program.file, program.checks);
+	else if (program.file)
+		htmlFile = program.file;
+
+    var checkJson = checkHtmlFile(htmlFile, program.checks);
     var outJson = JSON.stringify(checkJson, null, 4);
     console.log(outJson);
 } else {

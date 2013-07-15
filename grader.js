@@ -36,6 +36,11 @@ var assertFileExists = function(infile) {
     return instr;
 };
 
+//TODO - expand stub function
+var assertUrlExists = function(url) {
+	return url;
+};
+
 var cheerioHtmlFile = function(htmlfile) {
     return cheerio.load(fs.readFileSync(htmlfile));
 };
@@ -65,7 +70,12 @@ if(require.main == module) {
     program
         .option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
         .option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
+		.option('-u, --url <html_file_url>', 'URL to index.html', clone(assertUrlExists))
         .parse(process.argv);
+	if (program.url) {
+		console.log('The url option is under construction. Exiting.');
+		process.exit(1);
+	}
     var checkJson = checkHtmlFile(program.file, program.checks);
     var outJson = JSON.stringify(checkJson, null, 4);
     console.log(outJson);

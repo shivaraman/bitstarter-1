@@ -61,12 +61,27 @@ var cheerioHtmlFile = function(htmlfile) {
     return cheerio.load(fs.readFileSync(htmlfile));
 };
 
+var cheerioHtmlString = function(htmlString) {
+    return cheerio.load(htmlString);
+};
+
 var loadChecks = function(checksfile) {
     return JSON.parse(fs.readFileSync(checksfile));
 };
 
 var checkHtmlFile = function(htmlfile, checksfile) {
     $ = cheerioHtmlFile(htmlfile);
+    var checks = loadChecks(checksfile).sort();
+    var out = {};
+    for(var ii in checks) {
+        var present = $(checks[ii]).length > 0;
+        out[checks[ii]] = present;
+    }
+    return out;
+};
+
+var checkHtmlString = function(htmlString, checksfile) {
+    $ = cheerioHtmlString(htmlString);
     var checks = loadChecks(checksfile).sort();
     var out = {};
     for(var ii in checks) {

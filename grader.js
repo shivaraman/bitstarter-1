@@ -41,6 +41,13 @@ var assertUrlExists = function(url) {
 	return url;
 };
 
+var validateCommandOptions = function(htmlPath, htmlUrl) {
+	if (htmlPath && htmlUrl) {
+		console.log('Only one html file can be specified. Exiting.');
+		process.exit(1);
+	}
+};
+
 var cheerioHtmlFile = function(htmlfile) {
     return cheerio.load(fs.readFileSync(htmlfile));
 };
@@ -72,6 +79,8 @@ if(require.main == module) {
         .option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
 		.option('-u, --url <html_file_url>', 'URL to index.html', clone(assertUrlExists))
         .parse(process.argv);
+
+	validateCommandOptions(program.file, program.url);
 	if (program.url) {
 		console.log('The url option is under construction. Exiting.');
 		process.exit(1);

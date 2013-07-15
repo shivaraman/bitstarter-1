@@ -24,6 +24,8 @@ References:
 var fs = require('fs');
 var program = require('commander');
 var cheerio = require('cheerio');
+var rest = require('restler');
+
 /*
 var HTMLFILE_DEFAULT = "index.html";
 var CHECKSFILE_DEFAULT = "checks.json";
@@ -115,21 +117,26 @@ if(require.main == module) {
 
 	validateCommandOptions(program.file, program.url, program.checks);
 
-	var htmlFile;
 	if (program.url) {
-		//download html file to current dir with restler library
+		//download html file with restler library
+		rest.get(program.url).on('complete', function(result) {
+			if (result instanceof Error) {
+				console.log('The url cannot be reached. Exiting');
+				process.exit(1);
+			}
 
-		//set htmlFile variable to name of downloaded file
+			var checkJson = checkHtmlString(result, program.checks);
+			var outJson = JSON.stringify(checkJson, null, 4);
+			console.log(outJson);
+		});
 
-		console.log('The url option is under construction. Exiting.');
-		process.exit(1);
 	}
-	else if (program.file)
-		htmlFile = program.file;
-
-    var checkJson = checkHtmlFile(htmlFile, program.checks);
-    var outJson = JSON.stringify(checkJson, null, 4);
-    console.log(outJson);
-} else {
+	else if (program.file) {
+		var checkJson = checkHtmlFile(program.file, program.checks);
+		var outJson = JSON.stringify(checkJson, null, 4);
+		console.log(outJson);
+	}
+}
+else {
     exports.checkHtmlFile = checkHtmlFile;
 }

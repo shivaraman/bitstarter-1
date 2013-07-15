@@ -42,9 +42,17 @@ var assertUrlExists = function(url) {
 	return url;
 };
 
-var validateCommandOptions = function(htmlPath, htmlUrl) {
+var validateCommandOptions = function(htmlPath, htmlUrl, checksPath) {
 	if (htmlPath && htmlUrl) {
 		console.log('Only one html file can be specified. Exiting.');
+		process.exit(1);
+	}
+	if (!htmlPath && !htmlUrl) {
+		console.log('An html file must be specified. Exiting.');
+		process.exit(1);
+	}
+	if (!checksPath) {
+		console.log('A checks file must be specified. Exiting.');
 		process.exit(1);
 	}
 };
@@ -90,7 +98,7 @@ if(require.main == module) {
 		.option('-u, --url <html_file_url>', 'URL to index.html', clone(assertUrlExists))
         .parse(process.argv);
 
-	validateCommandOptions(program.file, program.url);
+	validateCommandOptions(program.file, program.url, program.checks);
 	if (program.url) {
 		console.log('The url option is under construction. Exiting.');
 		process.exit(1);
